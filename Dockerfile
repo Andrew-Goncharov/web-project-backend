@@ -18,3 +18,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # copy project
 COPY /products_aggregator_project .
+RUN python manage.py collectstatic
