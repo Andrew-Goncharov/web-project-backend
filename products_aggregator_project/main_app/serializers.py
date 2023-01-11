@@ -34,11 +34,15 @@ class ItemSerializer(serializers.Serializer):
 
     def create(self, validated_data, updateDate):
 
-        print("parent_id: ", str(validated_data["parentId"]), "; type: ", type(str(validated_data["parentId"])))
+        print("parent_id: ", str(validated_data["parentId"]), "; type: ", type(validated_data["parentId"]))
+
+        parentId = None
+        if validated_data["parentId"]:
+            parentId = str(validated_data["parentId"])
 
         data_to_insert = {
             "id": str(validated_data["id"]),
-            "parent_id_id": str(validated_data["parentId"]),
+            "parent_id_id": parentId,
             "name": validated_data["name"],
             "price": validated_data["price"],
             "updated_dt": str(updateDate),
