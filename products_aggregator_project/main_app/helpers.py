@@ -1,5 +1,6 @@
 import datetime as dt
 from uuid import UUID
+from .models import Node
 
 
 def is_valid_datetime(value: str) -> bool:
@@ -8,6 +9,33 @@ def is_valid_datetime(value: str) -> bool:
         return True
     except Exception as e:
         return False
+
+
+def is_valid_uuid(node_id: str) -> bool:
+    try:
+        UUID(node_id)
+        return True
+    except Exception:
+        return False
+
+
+def delete_node(node_id: str) -> None:
+    node = Node.objects.get(pk=node_id)
+    node.delete()
+
+
+def get_nodes(node_id: str):
+    nodes = Node.objects.raw("""WITH RECURSIVE recursive_nodes AS (
+                SELECT * FROM main_app_node WHERE main_app_node.id = %s
+
+                UNION
+
+                SELECT main_app_node.* FROM main_app_node
+                JOIN recursive_nodes ON main_app_node.parent_id_id = recursive_nodes.id
+            )
+
+            SELECT * FROM recursive_nodes;""", [node_id])
+    return nodes
 
 
 def rearrange_data(bad_data):
