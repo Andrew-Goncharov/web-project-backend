@@ -46,6 +46,11 @@ class GetAllView(APIView):
             r_data = rearrange_data(data_json)
             data = create_get_node_result(r_data, root)
 
+            children = []
+            for child in data["children"]:
+                children.append(child["id"])
+
+            data["children"] = children
             final_data.append(data)
 
         return JsonResponse(final_data, safe=False, status=200)
