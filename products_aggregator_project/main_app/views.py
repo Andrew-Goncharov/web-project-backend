@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.http import JsonResponse
 
-from .serializers import NodeSerializer, ImportSerializer, GetSerializer
+from .serializers import NodeSerializer, ImportSerializer
 from .models import Node
 from .helpers import rearrange_data, create_get_node_result
 
