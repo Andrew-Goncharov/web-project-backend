@@ -35,7 +35,7 @@ class GetAllView(APIView):
 
         data = request.data
         nodes = Node.objects.raw('SELECT * FROM main_app_node')
-        serializer = GetSerializer(nodes, many=True)
+        serializer = NodeSerializer(nodes, many=True)
         data = serializers.serialize('json', nodes)
         print(data)
 
