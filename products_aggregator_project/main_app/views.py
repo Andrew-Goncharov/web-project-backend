@@ -28,9 +28,7 @@ class GetAllView(APIView):
         all_nodes = Node.objects.all()
 
         data_str = serializers.serialize("json", all_nodes)
-        # print("data_str: ", data_str)
         data_json = json.loads(data_str)
-        # print("data_json: ", data_json)
 
         roots = []
         final_data = []
@@ -39,8 +37,6 @@ class GetAllView(APIView):
             if node["fields"]["parent_id"] is None:
                 roots.append(node["pk"])
 
-        # print("\nroots: ", roots)
-
         for root in roots:
             nodes = get_nodes(node_id=root)
 
@@ -48,13 +44,10 @@ class GetAllView(APIView):
             data_json = json.loads(data_str)
 
             r_data = rearrange_data(data_json)
-            # print(r_data)
-
             data = create_get_node_result(r_data, root)
-            # print("current data: ", data)
+
             final_data.append(data)
 
-        # print("final_data: ", final_data)
         return JsonResponse(final_data, safe=False, status=200)
 
 
