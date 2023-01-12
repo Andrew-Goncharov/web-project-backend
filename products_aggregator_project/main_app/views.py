@@ -23,6 +23,7 @@ def my_custom_sql():
         row = cursor.fetchone()
     return row
 
+
 class GetAllView(APIView):
     def get(self, request):
         nodes = Node.objects.all()

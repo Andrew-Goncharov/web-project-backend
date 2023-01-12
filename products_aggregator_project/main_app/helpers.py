@@ -1,12 +1,14 @@
 import datetime as dt
 from uuid import UUID
 
+
 def is_valid_datetime(value: str) -> bool:
     try:
         dt.datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.000Z')
         return True
     except Exception as e:
         return False
+
 
 def rearrange_data(bad_data):
     data = []
@@ -22,6 +24,7 @@ def rearrange_data(bad_data):
                     }
         data.append(new_node)
     return data
+
 
 def create_get_node_result(nodes: list[dict], root_node_id: UUID) -> dict:
     id_to_node = dict()
@@ -39,6 +42,7 @@ def create_get_node_result(nodes: list[dict], root_node_id: UUID) -> dict:
     calculate_price_date(root_node)
 
     return root_node
+
 
 def calculate_price_date(node: dict) -> tuple[int, int, str]:
     if node["type"] == "OFFER":
