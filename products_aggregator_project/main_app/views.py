@@ -12,7 +12,7 @@ from django.http import JsonResponse
 from .serializers import NodeSerializer, ImportSerializer
 from .models import Node
 from .helpers import rearrange_data, create_get_node_result,\
-    is_valid_uuid, delete_node, get_nodes
+    is_valid_uuid, delete_node, get_nodes, create_result
 
 from django.db import connection
 from django.core import serializers
@@ -44,14 +44,8 @@ class GetAllView(APIView):
             data_json = json.loads(data_str)
 
             r_data = rearrange_data(data_json)
-            data = create_get_node_result(r_data, root)
-
-            children = []
-            for child in data["children"]:
-                children.append(child["id"])
-
-            data["children"] = children
-            final_data.append(data)
+            data = create_result(r_data, root)
+            final_data.extend(data)
 
         return JsonResponse(final_data, safe=False, status=200)
 

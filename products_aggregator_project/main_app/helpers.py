@@ -54,6 +54,42 @@ def rearrange_data(bad_data):
     return data
 
 
+def find_children(node: dict, values) -> str:
+    if node["type"] == "OFFER":
+        values.append(node)
+        return node["id"]
+
+    children = []
+    for child in node["children"]:
+        child_id = find_children(child, values)
+        children.append(child_id)
+    node["children"] = children
+
+    values.append(node)
+    return node["id"]
+
+
+def create_result(nodes: list[dict], root_node_id: UUID) -> list[dict]: #dict:
+    id_to_node = dict()
+    values = []
+
+    for node in nodes:
+        id_to_node[node["id"]] = node
+
+    for node in id_to_node.values():
+        if node["id"] == str(root_node_id):
+            continue
+
+        parent_node = id_to_node[node["parent_id"]] if node["parent_id"] else None
+        parent_node["children"].append(node)
+
+    root_node = id_to_node[str(root_node_id)]
+    calculate_price_date(root_node)
+    find_children(root_node, values)
+
+    return values
+
+
 def create_get_node_result(nodes: list[dict], root_node_id: UUID) -> dict:
     id_to_node = dict()
     for node in nodes:
