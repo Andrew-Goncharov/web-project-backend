@@ -12,6 +12,9 @@ RUN apk update \
 
 # install dependencies
 COPY requirements.txt requirements.txt
+RUN apk add --update --no-cache --virtual .tmp-build-deps \
+    gcc libc-dev linux-headers postgresql-dev \
+    && apk add libffi-dev
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
