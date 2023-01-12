@@ -25,20 +25,8 @@ def my_custom_sql():
 
 class GetAllView(APIView):
     def get(self, request):
-
-        '''nodes = Node.objects.all()
+        nodes = Node.objects.all()
         serializer = NodeSerializer(nodes, many=True)
-        return JsonResponse(serializer.data, safe=False, status=200)'''
-        # row = my_custom_sql()
-        # serializer = GetSerializer(row, many=True)
-        # print(row)
-
-        data = request.data
-        nodes = Node.objects.raw('SELECT * FROM main_app_node')
-        serializer = NodeSerializer(nodes, many=True)
-        data = serializers.serialize('json', nodes)
-        print(data)
-
         return JsonResponse(serializer.data, safe=False, status=200)
 
 
