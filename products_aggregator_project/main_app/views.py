@@ -16,7 +16,7 @@ from .helpers import rearrange_data, create_get_node_result,\
 
 from django.db import connection
 from django.core import serializers
-
+from rest_framework.permissions import IsAuthenticated
 import json
 
 
@@ -24,6 +24,8 @@ class GetAllView(APIView):
     """
     Get all elements by recursively traversing child elements.
     """
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request):
         all_nodes = Node.objects.all()
 
@@ -54,9 +56,10 @@ class ImportView(APIView):
     """
     Imports new products and/or categories.
     """
+    permission_classes = (IsAuthenticated,)
 
     def post(self, request):
-        print("Request received: ", request.data)
+        # print("Request received: ", request.data)
         serializer = ImportSerializer(data=request.data)
 
         if not serializer.is_valid():
@@ -76,6 +79,8 @@ class DeleteView(APIView):
     """
     Delete element by id.
     """
+    permission_classes = (IsAuthenticated,)
+
     def delete(self, request, node_id):
         if not is_valid_uuid(node_id):
             return JsonResponse({
@@ -98,6 +103,7 @@ class GetView(APIView):
     """
     Get element by id by recursively traversing child elements.
     """
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request, node_id):
 
