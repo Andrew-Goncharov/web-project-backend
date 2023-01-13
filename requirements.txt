@@ -12,3 +12,5 @@ pytz==2022.6
 sqlparse==0.4.3
 uuid==1.30
 django-cors-headers
+Pillow
+django-base64field

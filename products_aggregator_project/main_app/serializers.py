@@ -1,13 +1,14 @@
 from rest_framework import serializers
 from .models import Node
-from .helpers import is_valid_datetime
+from .helpers import is_valid_datetime, base64_file
 from django.db import connections, connection
+from django_base64field.fields import Base64Field
 
 
 class NodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Node
-        fields = ["id", "parent_id", "name", "price", "updated_dt", "type"]
+        fields = ["id", "parent_id", "name", "price", "updated_dt", "type", "image"]
 
 
 class ItemSerializer(serializers.Serializer):
@@ -16,6 +17,8 @@ class ItemSerializer(serializers.Serializer):
     price = serializers.IntegerField(allow_null=True)
     parentId = serializers.UUIDField(allow_null=True)
     type = serializers.CharField()
+    image = serializers.CharField()
+
 
     def validate(self, attrs):
         print("price validation")
@@ -47,7 +50,8 @@ class ItemSerializer(serializers.Serializer):
             "name": validated_data["name"],
             "price": validated_data["price"],
             "updated_dt": str(updateDate),
-            "type": validated_data["type"]
+            "type": validated_data["type"],
+            "image": validated_data["image"]
         }
 
         return Node.objects.create(**data_to_insert)
@@ -62,7 +66,7 @@ class ImportSerializer(serializers.Serializer):
 
     def validate_items(self, items):
         print("Items validation")
-        print("Items: ", items)
+        #print("Items: ", items)
 
         all_ids = set()
         category_ids = set()
@@ -84,7 +88,7 @@ class ImportSerializer(serializers.Serializer):
 
     def validate_updateDate(self, updateDate):
         print("updateDate validation")
-        print("updateDate: ", updateDate)
+        #print("updateDate: ", updateDate)
 
         # if not isinstance(updateDate, str) or not is_valid_datetime(updateDate):
         # if not is_valid_datetime(updateDate):
@@ -96,7 +100,7 @@ class ImportSerializer(serializers.Serializer):
     #     pass
 
     def create(self, validated_data):
-        print("Data: ", validated_data)
+        #print("Data: ", validated_data)
 
         for item in validated_data["items"]:
             s = ItemSerializer(data=item)

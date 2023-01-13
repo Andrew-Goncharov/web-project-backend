@@ -24,7 +24,7 @@ class GetAllView(APIView):
     """
     Get all elements by recursively traversing child elements.
     """
-    permission_classes = (IsAuthenticated,)
+    #permission_classes = (IsAuthenticated,)
 
     def get(self, request):
         all_nodes = Node.objects.all()
@@ -56,7 +56,7 @@ class ImportView(APIView):
     """
     Imports new products and/or categories.
     """
-    permission_classes = (IsAuthenticated,)
+    #permission_classes = (IsAuthenticated,)
 
     def post(self, request):
         # print("Request received: ", request.data)
@@ -64,7 +64,7 @@ class ImportView(APIView):
 
         if not serializer.is_valid():
 
-            # print("Errors: ", serializer.errors)
+            print("Errors: ", serializer.errors)
 
             return JsonResponse({
                 "code": 400,
@@ -79,7 +79,7 @@ class DeleteView(APIView):
     """
     Delete element by id.
     """
-    permission_classes = (IsAuthenticated,)
+    #permission_classes = (IsAuthenticated,)
 
     def delete(self, request, node_id):
         if not is_valid_uuid(node_id):
@@ -103,7 +103,7 @@ class GetView(APIView):
     """
     Get element by id by recursively traversing child elements.
     """
-    permission_classes = (IsAuthenticated,)
+    #permission_classes = (IsAuthenticated,)
 
     def get(self, request, node_id):
 

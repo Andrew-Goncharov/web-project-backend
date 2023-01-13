@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django_base64field.fields import Base64Field
 
 
 class Node(models.Model):
@@ -10,3 +11,4 @@ class Node(models.Model):
     price = models.IntegerField(null=True, blank=True)
     updated_dt = models.DateTimeField(null=True, blank=True, max_length=30)
     type = models.CharField(null=False, blank=False, max_length=100)
+    image = models.TextField()
